@@ -10,7 +10,7 @@ const form = document.querySelector('.feedback-form')
 populateData();
 
 form.addEventListener('submit', handleSubmitForm);
-form.addEventListener('focusout', handleFormInput);
+form.addEventListener('input', handleFormInput);
 
 function handleSubmitForm(e) {
   e.preventDefault();
@@ -21,14 +21,18 @@ function handleSubmitForm(e) {
     return;
   }
 
-  localStorage.removeItem(STORAGE_KEY);
+  console.log(formData);
 
+  localStorage.removeItem(STORAGE_KEY);
   form.reset();
+
+  formData.email = '';
+  formData.message = '';
 }
 
 function handleFormInput(e) {
   const { name, value } = e.target;
-  formData[name] = value;
+  formData[name] = value.trim();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 
